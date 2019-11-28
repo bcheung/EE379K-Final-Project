@@ -33,6 +33,17 @@ PSPs can limit pod behaviors include, preventing privileged pods from starting
 and controlling its privilege, restricting pods from accessing host namespaces,
 filesystem, and networks, restrict the amount of user/groups that a pod can run,
 and more.
+Network filtering is the practice of monitoring the inflow/outflow of packets in
+a network. There are two types of filtering, ingress and egress filtering.
+Ingress filtering is the technique of monitoring incoming packet data.
+It is considered the first-line of defense in a network because it blocks
+out unwanted inflow traffic to the network. While this isn't a robust and complete
+form of defense, it's beneficial because it can greatly reduce the load on some proxy
+or firewall, and it's an effective for getting rid of the majority of unwanted traffic.
+Egress filtering is the technique of monitoring the flow of outbound network traffic and
+prevents any outbound connections to potential threats/unwanted hosts. Egress filtering
+can be used to disrupt malware, block unwanted services, and gives greater awareness of
+network traffic.
 First, we will setup a simple application and document the vulnerabilities.
 Next, we will implement pod security policies and document the results.
 Then we will implement network filtering on the base application without pod security policies
