@@ -3,15 +3,15 @@ applications, and the implementation of network filtering
 as well as strong pod security policies can help mitigate
 these threats.
 
-Second para: describe the key problem that if solved would make
-an impact. Why the current approaches leave a gap?
+% Second para: describe the key problem that if solved would make
+% an impact. Why the current approaches leave a gap?
 Figuring out how to effectively utilize network filtering and
 pod security policies to work together will hopefully result
 in a strong security infrastructure that can successfully
 defend against all attacks and will be adopted by all applications.
 
-Third: describe your approach. Key insight that enables your approach,
-and what is novel/interesting about the insight.
+% Third: describe your approach. Key insight that enables your approach,
+% and what is novel/interesting about the insight.
 We will be researching how network filtering and pod security policies
 function and how they can be applied to improving the security of
 an application. By understanding how each work, we will be able to
@@ -21,12 +21,22 @@ start, and we will understand how to write a concrete and complete
 pod security policy to defend against the attacks that slip through
 the filter.
 
-Fourth, fifth: Delve deeper into the approach and experimental setup.
-In the final report, describe key findings.
+% Fourth, fifth: Delve deeper into the approach and experimental setup.
+% In the final report, describe key findings.
+Pod Security Policies (PSP) provides a framework that will layout the rules
+of how a pod can operate and ensures that they run with the correct
+privileges and access. Furthermore, PSPs are used so that those operating
+Kubernetes clusters can control pod creations and limit what pods can access.
+When a pod is deployed, the PSP acts as a gatekeeper that will compare the
+pod security configuration to what is defined in the PSP. Some examples of how
+PSPs can limit pod behaviors include, preventing privileged pods from starting
+and controlling its privilege, restricting pods from accessing host namespaces,
+filesystem, and networks, restrict the amount of user/groups that a pod can run,
+and more.
 First, we will setup a simple application and document the vulnerabilities.
 Next, we will implement pod security policies and document the results.
 Then we will implement network filtering on the base application without pod security policies
 and document the results. Finally, we will combine both layers of security and document the results.
 Hopefully, the final application will be free of vulnerabilities.
 
-End with outline or what comes next and why.
+% End with outline or what comes next and why.
