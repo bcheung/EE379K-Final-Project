@@ -17,10 +17,8 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: bitnami/nginx:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 3000
-        fsGroup: 2000
+        runAsUser: 1001
