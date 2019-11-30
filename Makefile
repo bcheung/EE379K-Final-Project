@@ -15,3 +15,6 @@ get-pods:
 
 get-dvwa-svc:
 	microk8s.kubectl get services/web-dvwa-svc --all-namespaces
+
+watch:
+	watch microk8s.kubectl get all
