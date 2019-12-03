@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-svc
+  name: root-debian-svc
   labels:
-    run: nginx-svc
+    run: root-debian-svc
 spec:
   type: NodePort
   ports:
-  - port: 8080
-    nodePort: 32000
+  - port: 80
+    nodePort: 30001
     protocol: TCP
   selector:
-    app: nginx
+    app: root-debian

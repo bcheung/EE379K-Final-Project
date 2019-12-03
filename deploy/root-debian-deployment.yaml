@@ -1,24 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: root-debian-deployment
   namespace: default
   labels:
-    app: nginx
+    app: root-debian
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: root-debian
   template:
     metadata:
       labels:
-        app: nginx
+        app: root-debian
     spec:
       containers:
-      - name: nginx
-        image: bitnami/nginx:latest
+      - name: root-debian
+        image: localhost:32000/app_root_debian:k8s
         ports:
-        - containerPort: 8080
-      securityContext:
-        runAsUser: 1001
+        - containerPort: 80
