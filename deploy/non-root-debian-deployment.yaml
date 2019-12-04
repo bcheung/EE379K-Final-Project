@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: non-root-debian-deployment
+  name: non-root-debian
   namespace: default
   labels:
     app: non-root-debian

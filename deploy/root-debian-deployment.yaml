@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: root-debian-deployment
+  name: root-debian
   namespace: default
   labels:
     app: root-debian
