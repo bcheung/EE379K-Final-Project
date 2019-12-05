@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: root-debian
+  namespace: default
+  labels:
+    app: root-debian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: root-debian
+  template:
+    metadata:
+      labels:
+        app: root-debian
+    spec:
+      containers:
+      - name: root-debian
+        image: localhost:32000/app_root_debian:k8s
+        ports:
+        - containerPort: 80

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: non-root-debian
+  namespace: default
+  labels:
+    app: non-root-debian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: non-root-debian
+  template:
+    metadata:
+      labels:
+        app: non-root-debian
+    spec:
+      containers:
+      - name: non-root-debian
+        image: localhost:32000/app_non-root_debian:k8s
+        ports:
+        - containerPort: 80
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000

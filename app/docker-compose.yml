@@ -1,0 +1,12 @@
+version: '2'
+services:
+  non-root_debian:
+    container_name: non-root-debian-container
+    build: ./non-root
+    ports:
+      - "8000:80"
+  root_debian:
+    container_name: root-debian-container
+    build: ./root
+    ports:
+      - "8000:80"
