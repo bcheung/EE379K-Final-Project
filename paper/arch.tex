@@ -1,16 +1,7 @@
-Creeate a Kubernetes Cluster with a single pod that has and nginx server
-running in a container. The container is configured to be a normal user
-without root priveleges.
+For this project, we have two Dockerfiles that create docker images that use the Debian Linux distribution
+as the base. The \verb|root-debian| image runs as \verb|root| with root privelages by
+default, while the \verb|non-root-debian| image runs as \verb|appuser| without root privileges.
+These two were built using the \verb|docker-compose| in the \verb|app| directory.
 
-Without Pod Security Policies:
-The user can escalate privelages to run as root.
+We also created Pod Security Policies to enforce specific rules in the Kubernetes cluster.
 
-With Pod Security Policies:
-A restrictive PSP should prevent privelege escalation.
-A violation of the PSP will prevent the pod from running.
-
-With Envoy:
-Envoy is to be used alongside the application that we are testing and
-will be used to monitor the inflow and outflow of traffic. With envoy,
-we will be able to see how well the implemented pod security policies
-are working.

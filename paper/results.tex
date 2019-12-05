@@ -3,3 +3,73 @@ Then we will add another layer of security through Data Plane filters in order t
 attack surface and prevent suspicious activity. These extra layers of security should hopefully
 eliminate the vulnerabilities of the application.
 
+\subsection{Without Pod Security Policies}
+Both pods successfully deploy and run in the cluster~\ref{no-psp-k8s-resources}. On the 
+\verb|non-root-debian| pod, the user can escalate privilages to run as the \verb|root| user ~\ref{no-psp-priv-esc}. 
+
+\subsection{With Pod Security Policies}
+% Explain Pod Security Policies
+With a restrictive PSP that requires the user to run as a non-root user, the \verb|non-root-debian| 
+pod successfully runs while the \verb|root-debian| pod is prevented from running with a 
+\verb|CreateContainerConfigError| as shown in Figure~\ref{fig:psp-k8s-resources} and 
+Figure~\ref{fig:psp-describe-root}. The PSP prevents the \verb|root-debian| pod from running because
+the policies does not allow the pod to run as the \verb|root| user.
+
+The PSP also prevents privilege escalation as well. The \verb|non-root-debian| pod successfully runs
+as a non-root user. The same privelege escalation method is tried with this pod after applying PSP,
+and as a result, the privilege escalation fails as shown in Figure~\ref{fig:psp-priv-esc}.
+
+\onecolumn
+
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/eps/no-psp-k8s-resources.eps,width=7in,height=1.2in} 
+    \caption{Screenshot of the Kubernetes resources after deploying the pods without Pod Security Policies}
+    \label{fig:no-psp-k8s-resources}
+  \end{center}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/eps/no-psp-priv-esc.eps,width=7in,height=1.2in} 
+    \caption{Screenshot of the privilege escalation on the non-root-debian pod}
+    \label{fig:no-psp-priv-esc}
+  \end{center}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/eps/psp-k8s-resources.eps,width=7in,height=1.2in} 
+    \caption{Screenshot of the Kubernetes resources after applying Pod Security Policies and deploying the pods}
+    \label{fig:psp-k8s-resources}
+  \end{center}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/eps/psp-describe-root.eps,width=5.5in,height=2.5in} 
+    \caption{Screenshot of the root-debian pod's status after applying the restrictive PSP and deploying}
+    \label{fig:psp-describe-root}
+  \end{center}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/eps/psp-priv-esc.eps,width=7in,height=1.2in} 
+    \caption{The non-root-debian pod fails to escalate privileges and login as the root user with the restrictive PSP}
+    \label{fig:psp-priv-esc}
+  \end{center}
+\end{figure}
+
+\twocolumn
+
+\subsection{With Envoy}
+Envoy is to be used alongside the application that we are testing and
+will be used to monitor the inflow and outflow of traffic. With envoy,
+we will be able to see how well the implemented pod security policies
+are working.
