@@ -102,18 +102,44 @@ redirect, we need to set the https_redirect flag to true.
      path_redirect: "/"
      https_redirect: true    
 \end{minted}
+These configurations will enable the envoy proxy to attach a SSL Certificate to network requests as well as redirect any
+HTTP traffic to HTTPS.
 
 \subsubsection{Envoy Proxy Configuration with OPA}
 In this section, we examine envoy's ability to use external authorization services, specifically checking
-if incoming requests have certain authorization privileges. In this example, we have to clients, Brian and Sam, that
-want to access an endpoint that has employees. Brian is assigned a guest role, and thus can only execute a GET request to
-the endpoint but can't  
+if incoming requests have certain authorization privileges. In this example, we have two clients, Brian and Sam, that
+want to access an endpoint that has employees. Brian is assigned a guest role, and thus can only get employees but cannot
+create an employee. Sam is assigned an admin role, which means Sam can get employees as well as create an employee. This policy
+is implemented with Open Policy Agent (OPA). After creating an envoy.yaml configuration file and mapping it to kubernetes,
+the OPA policy needs to be created. Below are some code snippets from the policy.rego file
+\begin{minted}{rego}
+  action_allowed {
+    http_request.method == "GET"
+    token.payload.role == "guest"
+    glob.match("/people", [], http_request.path)
+  }
+  action_allowed {
+    http_request.method == "GET"
+    token.payload.role == "admin"
+    glob.match("/people", [], http_request.path)
+  }
+  action_allowed {
+    http_request.method == "POST"
+    token.payload.role == "admin"
+    glob.match("/people", [], http_request.path)
+    lower(input.parsed_body.firstname) != base64url.decode(token.payload.sub)
+  }
+\end{minted}
+This defines the actions that are allowed. As shown, the admin role is allowed to execute GET and POST requests to the "/people" endpoint, while
+a guest can only execute a GET request. Below, there are screenshots of Brian, our guest, executing both GET and POST requests, and the GET request
+is allowed while the POST request is denied. The same requests are executed by Sam, our admin, and both requests are allowed.
+
 \begin{figure}[t]
   \begin{center}
     \vspace{-0.2in}
     \psfig{figure=./images/png/Brian_OPA.png,width=7in,height=1.2in} 
-    \caption{}
-    \label{fig:psp-priv-esc}
+    \caption{Guest role executing both GET and POST requests}
+    \label{fig:opa-guest}
   \end{center}
 \end{figure}
 
@@ -121,7 +147,7 @@ the endpoint but can't
   \begin{center}
     \vspace{-0.2in}
     \psfig{figure=./images/png/Sam_OPA.png,width=7in,height=1.2in} 
-    \caption{The non-root-debian pod fails to escalate privileges and login as the root user with the restrictive PSP}
-    \label{fig:psp-priv-esc}
+    \caption{Admin role executing both GET and POST requests}
+    \label{fig:opa-admin}
   \end{center}
 \end{figure}
