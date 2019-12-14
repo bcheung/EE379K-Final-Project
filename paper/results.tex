@@ -68,8 +68,60 @@ and as a result, the privilege escalation fails as shown in Figure~\ref{fig:psp-
 
 \twocolumn
 
-\subsection{With Envoy}
-Envoy is to be used alongside the application that we are testing and
-will be used to monitor the inflow and outflow of traffic. With envoy,
-we will be able to see how well the implemented pod security policies
-are working.
+\subsection{Network Proxy - Envoy}
+We demonstrate just some of the features of Envoy, including the ability to secure HTTP traffic by applying SSL
+certificates and redirecting HTTP to HTTPS traffic as well using Envoy's External authorization filter
+used with Open Policy Agent to enforce security policies over API requests that the proxy receives.
+
+\subsubsection{SSL Certificate and HTTPS Redirect}
+In order to apply SSL certificates to a request and redirect traffic to HTTPS, first a SSL certificate needs to be created.
+Ideally, you would generate the certificate from some service, but a simple certificate can be generated using the following command
+\begin{minted}{bash}
+  mkdir certificates;
+  cd certificates;
+  openssl req - nodes -new -x509 \
+    -keyout "domainname-com.key -out domainname-com.crt \
+    -days 365 \
+    -subj '/CN=domainname.com/O=Company Name LTD./C=US';
+\end{minted}
+After creating the SSL certificate, the envoy.yaml file needs to be edited in order to apply a TLS context in the filter.
+A TLS context will specify the certificate(s) to be used with the proxy domains. The following lines will apply the TLS context
+\begin{minted}{yaml}
+  tls_context:
+     common_tls_context:
+     tls_certificates:
+        - certificate_chain:
+           filename: "/filepath_to_certificate.crt"
+        private_key:
+           filname: "/filepath_to_certificate.key"
+\end{minted}
+After defining the certificates to be used, the proxy will be able to redirect traffic to HTTPS. In order to complete the
+redirect, we need to set the https_redirect flag to true.
+\begin{minted}{yaml}
+  redirect:
+     path_redirect: "/"
+     https_redirect: true    
+\end{minted}
+
+\subsubsection{Envoy Proxy Configuration with OPA}
+In this section, we examine envoy's ability to use external authorization services, specifically checking
+if incoming requests have certain authorization privileges. In this example, we have to clients, Brian and Sam, that
+want to access an endpoint that has employees. Brian is assigned a guest role, and thus can only execute a GET request to
+the endpoint but can't  
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/png/Brian_OPA.png,width=7in,height=1.2in} 
+    \caption{}
+    \label{fig:psp-priv-esc}
+  \end{center}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+    \vspace{-0.2in}
+    \psfig{figure=./images/png/Sam_OPA.png,width=7in,height=1.2in} 
+    \caption{The non-root-debian pod fails to escalate privileges and login as the root user with the restrictive PSP}
+    \label{fig:psp-priv-esc}
+  \end{center}
+\end{figure}

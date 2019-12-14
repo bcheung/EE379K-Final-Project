@@ -2,10 +2,16 @@
 % and end with highlights of results. For the initial report, end with
 % the proposed experiments and what you aim to find out.
 
-We will examine the vulnerabilities of a distributed application without using
+Overall in this paper we will discuss the use of Pod Security Policies and Network Proxies 
+when applied to a network to improve the security of an application. Pod Security Policies
+are policies that define rules/conditions that a pod must run with in order to function within
+the whole cluster of pods. Network Proxies behave as a gateway between some internet user and the network,
+like a middleman for some network. Proxies provide many benefits, however, the most notable benefit for
+this paper would be that a proxy can be used to fortify security by filtering out malicious requests and
+encrypting good requests. We will examine the vulnerabilities of a distributed application without using
 any layers of security. Then we will implement Pod Security Policies and Data Plane Filters
 to imporve the security of the application itself and filter out suspicious network traffic.
 The filtering of certain packets based on information such as the source/destination
 IP addresses and protocols can further reduce the attack surface and strengthen current security practices
-for applications. Through our research, we hope that the implementation of filtering
+for applications. Through our research, we expect that the implementation of filtering
 out network traffic will lead to an increase in security performance.
