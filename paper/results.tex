@@ -76,17 +76,17 @@ used with Open Policy Agent to enforce security policies over API requests that 
 \subsubsection{SSL Certificate and HTTPS Redirect}
 In order to apply SSL certificates to a request and redirect traffic to HTTPS, first a SSL certificate needs to be created.
 Ideally, you would generate the certificate from some service, but a simple certificate can be generated using the following command
-\begin{minted}{bash}
+\begin{verbatim}
   mkdir certificates;
   cd certificates;
   openssl req - nodes -new -x509 \
     -keyout "domainname-com.key -out domainname-com.crt \
     -days 365 \
     -subj '/CN=domainname.com/O=Company Name LTD./C=US';
-\end{minted}
+\end{verbatim}
 After creating the SSL certificate, the envoy.yaml file needs to be edited in order to apply a TLS context in the filter.
 A TLS context will specify the certificate(s) to be used with the proxy domains. The following lines will apply the TLS context
-\begin{minted}{yaml}
+\begin{verbatim}
   tls_context:
      common_tls_context:
      tls_certificates:
@@ -94,14 +94,14 @@ A TLS context will specify the certificate(s) to be used with the proxy domains.
            filename: "/filepath_to_certificate.crt"
         private_key:
            filname: "/filepath_to_certificate.key"
-\end{minted}
+\end{verbatim}
 After defining the certificates to be used, the proxy will be able to redirect traffic to HTTPS. In order to complete the
 redirect, we need to set the https_redirect flag to true.
-\begin{minted}{yaml}
+\begin{verbatim}
   redirect:
      path_redirect: "/"
      https_redirect: true    
-\end{minted}
+\end{verbatim}
 These configurations will enable the envoy proxy to attach a SSL Certificate to network requests as well as redirect any
 HTTP traffic to HTTPS.
 
@@ -112,7 +112,7 @@ want to access an endpoint that has employees. Brian is assigned a guest role, a
 create an employee. Sam is assigned an admin role, which means Sam can get employees as well as create an employee. This policy
 is implemented with Open Policy Agent (OPA). After creating an envoy.yaml configuration file and mapping it to kubernetes,
 the OPA policy needs to be created. Below are some code snippets from the policy.rego file
-\begin{minted}{rego}
+\begin{verbatim}
   action_allowed {
     http_request.method == "GET"
     token.payload.role == "guest"
@@ -129,7 +129,7 @@ the OPA policy needs to be created. Below are some code snippets from the policy
     glob.match("/people", [], http_request.path)
     lower(input.parsed_body.firstname) != base64url.decode(token.payload.sub)
   }
-\end{minted}
+\end{verbatim}
 This defines the actions that are allowed. As shown, the admin role is allowed to execute GET and POST requests to the "/people" endpoint, while
 a guest can only execute a GET request. Below, there are screenshots of Brian, our guest, executing both GET and POST requests, and the GET request
 is allowed while the POST request is denied. The same requests are executed by Sam, our admin, and both requests are allowed.
