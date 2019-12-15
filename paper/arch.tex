@@ -2,7 +2,7 @@ As mentioned above, this experiment is divided into two parts. Part one demonstr
 how Pod Security Policies can prevent a common vulnerability, and part two demonstrates 
 how Envoy can be configured to better fortify the network security of an application.
 
-\subsection{Part 1: Pod Security Polices}
+\subsection{Part 1: Pod Security Policies}
 For part one, we will be  demonstrating how Pod Security Policies can prevent privilege 
 escalation. We wrote two Dockerfiles that create docker images that use the Debian Linux 
 distribution as the base. The \verb|root-debian| image runs as the root user with root 
@@ -16,7 +16,7 @@ The permissive (\verb|psp-permissive.yaml|) policy allows pods to run as \verb|r
 the restrictive (\verb|psp-restrictive.yaml|) policy does not allow pods to run as \verb|root|, 
 and prevents privilege escalation. 
 
-We first deployed both applications into separate pods without Pod Security Polices applied. 
+We first deployed both applications into separate pods without Pod Security Policies applied. 
 Then we applied the restrictive policy to the cluster and redeployed the applications. 
 For each of the deployments, we observed whether or not these distributed applications successfully 
 deployed, and if they did, we attempted to escalate privileges to the root user and access the 
