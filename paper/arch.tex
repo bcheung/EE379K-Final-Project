@@ -11,7 +11,7 @@ for cloud-based applications/services. There are a number of external services, 
 that Envoy can be customized with that will implement different forms of security measures. The Envoy proxy
 configuration is configured using a YAML file and consists of listeners, filters, and clusters. A listener
 configures the IP addresses and ports that the proxy will listen to for network requests. With Envoy specifically,
-it is run within a Docker container. Filters are defined by filter_chains, and handle finding matches with incoming
+it is run within a Docker container. Filters are defined by \verb|filter_chains|, and handle finding matches with incoming
 network request to a destination. A filter can be unique to a listener or can be shared amongst multiple listeners.
 After a filter finds the match between request and destination, that request is passed onto a cluster. The cluster
 defines the host of the proxy.
