@@ -80,9 +80,11 @@ Ideally, you would generate the certificate from some service, but a simple cert
   mkdir certificates;
   cd certificates;
   openssl req - nodes -new -x509 \
-    -keyout "domainname-com.key -out domainname-com.crt \
+    -keyout "domainname-com.key -out 
+       domainname-com.crt \
     -days 365 \
-    -subj '/CN=domainname.com/O=Company Name LTD./C=US';
+    -subj '/CN=domainname.com/O=Company Name 
+       LTD./C=US';
 \end{verbatim}
 After creating the SSL certificate, the envoy.yaml file needs to be edited in order to apply a TLS context in the filter.
 A TLS context will specify the certificate(s) to be used with the proxy domains. The following lines will apply the TLS context
@@ -91,9 +93,9 @@ A TLS context will specify the certificate(s) to be used with the proxy domains.
      common_tls_context:
      tls_certificates:
         - certificate_chain:
-           filename: "/filepath_to_certificate.crt"
+           filename: "/filepath_certificate.crt"
         private_key:
-           filname: "/filepath_to_certificate.key"
+           filname: "/filepath_certificate.key"
 \end{verbatim}
 After defining the certificates to be used, the proxy will be able to redirect traffic to HTTPS. In order to complete the
 redirect, we need to set the https_redirect flag to true.
@@ -127,12 +129,15 @@ the OPA policy needs to be created. Below are some code snippets from the policy
     http_request.method == "POST"
     token.payload.role == "admin"
     glob.match("/people", [], http_request.path)
-    lower(input.parsed_body.firstname) != base64url.decode(token.payload.sub)
+    lower(input.parsed_body.firstname) 
+       != base64url.decode(token.payload.sub)
   }
 \end{verbatim}
 This defines the actions that are allowed. As shown, the admin role is allowed to execute GET and POST requests to the "/people" endpoint, while
 a guest can only execute a GET request. Below, there are screenshots of Brian, our guest, executing both GET and POST requests, and the GET request
 is allowed while the POST request is denied. The same requests are executed by Sam, our admin, and both requests are allowed.
+
+\onecolumn
 
 \begin{figure}[t]
   \begin{center}
@@ -151,3 +156,5 @@ is allowed while the POST request is denied. The same requests are executed by S
     \label{fig:opa-admin}
   \end{center}
 \end{figure}
+
+\twocolumn
