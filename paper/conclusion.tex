@@ -1,7 +1,13 @@
-While Pod Security Policies and Network Proxies have similar goals of maintaining/strengthening the strength of the
-security of an application, they do have different use cases and have unique strengths when it comes to application/network security.
-As mentioned, a network proxy is the middleman between the client and the network and thus is met with every network request.
-Thus, designing a network proxy that can effectively handle these network requests, whether that be filtering out malicious requests, or
-assigning security policies onto API requests is extremely important in protecting the overall security integrity of the application
-as well as reducing the load that the rest of the application has to deal with. Implementing Pod Security Policies is important because
-it protects what the application is actually deployed on.
+While Pod Security Policies and Network Proxies have similar goals of maintaining/strengthening 
+the strength of the security of an application, they do have different use cases and have unique 
+strengths when it comes to application/network security. Pod Security Policies secure the base 
+application and the Kubernetes cluster that the application is hosted on. On the other hand, a 
+network proxy is the middleman between the client and the network and thus is met with every network 
+request. Furthermore, designing a network proxy that can effectively handle these network requests, 
+whether that be filtering out malicious requests, or assigning security policies onto API requests 
+is extremely important in protecting the overall security integrity of the application as well as 
+reducing the load that the rest of the application has to deal with. Network proxies can be viewed 
+as the outer line of defense, while Pod Security Policies act as the base-line defense that protects 
+the system if a threat manages to bypass the network proxy. Both services add a layer of security 
+that helps mitigate threats at different levels of the application, which ultimately minimizes the 
+attack surface of the application.

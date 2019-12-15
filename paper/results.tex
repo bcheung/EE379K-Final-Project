@@ -1,19 +1,16 @@
-First, we will improve the base security of the application through Pod Security Policies.
-Then we will add another layer of security through Data Plane filters in order to reduce the
-attack surface and prevent suspicious activity. These extra layers of security should hopefully
-eliminate the vulnerabilities of the application.
 
-\subsection{Without Pod Security Policies}
-Both pods successfully deploy and run in the cluster~\ref{no-psp-k8s-resources}. On the 
-\verb|non-root-debian| pod, the user can escalate privilages to run as the \verb|root| user ~\ref{no-psp-priv-esc}. 
+\subsection{Part 1: Pod Security Polices}
+\subsubsection{Without Pod Security Policies}
+Both pods successfully deploy and run in the cluster as shown in Figure~\ref{fig:no-psp-k8s-resources}. On the 
+\verb|non-root-debian| pod, the user can escalate privilages to run as the root user as shown in Figure~\ref{fig:no-psp-priv-esc}. 
 
-\subsection{With Pod Security Policies}
+\subsubsection{With Pod Security Policies}
 % Explain Pod Security Policies
 With a restrictive PSP that requires the user to run as a non-root user, the \verb|non-root-debian| 
 pod successfully runs while the \verb|root-debian| pod is prevented from running with a 
 \verb|CreateContainerConfigError| as shown in Figure~\ref{fig:psp-k8s-resources} and 
 Figure~\ref{fig:psp-describe-root}. The PSP prevents the \verb|root-debian| pod from running because
-the policies does not allow the pod to run as the \verb|root| user.
+the policies does not allow the pod to run as the root user.
 
 The PSP also prevents privilege escalation as well. The \verb|non-root-debian| pod successfully runs
 as a non-root user. The same privelege escalation method is tried with this pod after applying PSP,
@@ -68,7 +65,7 @@ and as a result, the privilege escalation fails as shown in Figure~\ref{fig:psp-
 
 \twocolumn
 
-\subsection{Network Proxy - Envoy}
+\subsection{Part 2: Network Proxy - Envoy}
 We demonstrate just some of the features of Envoy, including the ability to secure HTTP traffic by applying SSL
 certificates and redirecting HTTP to HTTPS traffic as well using Envoy's External authorization filter
 used with Open Policy Agent to enforce security policies over API requests that the proxy receives.

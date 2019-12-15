@@ -1,56 +1,48 @@
-There exists a variety of attacks that exploit the vulnerabilities 
-within networks and distributed applications. Some of these attacks
-are able to deny clients from using a service (DoS, DDoS) while others
-breach the internal system and extract confidential and private information \cite{mns}.
-The implementation of network filtering as well as strong pod security policies can 
-help mitigate these threats from causing harm to the service.
 
 % Second para: describe the key problem that if solved would make
 % an impact. Why the current approaches leave a gap?
-Figuring out how to effectively utilize network filtering and
-pod security policies to work together will hopefully result
-in a strong security infrastructure that can successfully
-defend against all attacks and will be adopted by all applications.
 
 % Third: describe your approach. Key insight that enables your approach,
 % and what is novel/interesting about the insight.
-We will be researching how network filtering and pod security policies
-function and how they can be applied to improving the security of
-an application. By understanding how each work, we will be able to
-understand how to effectively filter out network traffic that seems
-suspicious, thus reducing the amount of potential attacks from the
-start, and we will understand how to write a concrete and complete
-pod security policy to defend against the attacks that slip through
-the filter.
 
 % Fourth, fifth: Delve deeper into the approach and experimental setup.
-% In the final report, describe key findings.
-Pod Security Policies (PSP) provides a framework that will layout the rules
-of how a pod can operate and ensures that they run with the correct
-privileges and access. Furthermore, PSPs are used so that those operating
-Kubernetes clusters can control pod creations and limit what pods can access.
-When a pod is deployed, the PSP acts as a gatekeeper that will compare the
-pod security configuration to what is defined in the PSP. Some examples of how
-PSPs can limit pod behaviors include, preventing privileged pods from starting
-and controlling its privilege, restricting pods from accessing host namespaces,
-filesystem, and networks, restrict the amount of user/groups that a pod can run,
-and more.
-Network filtering is the practice of monitoring the inflow/outflow of packets in
-a network. There are two types of filtering, ingress and egress filtering.
-Ingress filtering is the technique of monitoring incoming packet data.
-It is considered the first-line of defense in a network because it blocks
-out unwanted inflow traffic to the network. While this isn't a robust and complete
-form of defense, it's beneficial because it can greatly reduce the load on some proxy
-or firewall, and it's an effective for getting rid of the majority of unwanted traffic.
-Egress filtering is the technique of monitoring the flow of outbound network traffic and
-prevents any outbound connections to potential threats/unwanted hosts. Egress filtering
-can be used to disrupt malware, block unwanted services, and gives greater awareness of
+% In the final report, describe key findings. 
+As container orchestration technologies and cloud platforms like Kubernetes and Docker Hub simplify 
+the deployment and scaling process and increase the accessibility of open-sourced software, developers 
+must be cautious of unintentional vulnerabilities when deploying large-scale distributed applications. 
+Common vulnerabilities of these distributed applications can stem from misconfiguration and misuse of 
+legitimate privileges, unknown vulnerabilities (often from open-source software), and an overall lack 
+of security. These vulnerabilities may allow attackers to gain privileged control of the system. This 
+issue presents the need for preventative measures that can be implemented with Kubernetes' Pod Security 
+Policies. 
+
+Kubernetes provides a framework that allows developers to create Pod Security Policies (PSP) which 
+defines the rules that pods in a cluster must follow in order to be allowed to operate. This ensures 
+that pods can and will run only if it maintains the correct privileges and resources defined in the PSPs. 
+When a pod is deployed, the PSP acts as a  gatekeeper that will compare the pod security configuration to 
+what is defined  in the PSP. Some examples of how PSPs can limit pod behaviors include, preventing 
+privilege escalation, restricting pods from accessing host namespaces, filesystem, and networks, restrict 
+the amount of user/groups that a pod can run, and more.
+
+Systems that involve networking may need additional layers of security in order to further reduce the 
+attack surface. Common threats and vulnerabilities in networks can include denial of service attacks 
+and snooping to extract confidential and private information \cite{mns}. These threats can be mitigated 
+through network filtering, which is the practice of monitoring the inflow/outflow of packets in a network. 
+
+There are two types of filtering, ingress and egress filtering. Ingress filtering is the technique of 
+monitoring incoming packet data. It is considered the first-line of defense in a network because it blocks 
+out unwanted inflow traffic to the network. While this isn't a robust and complete form of defense, it's 
+beneficial because it can greatly reduce the load on some proxy or firewall, and it's an effective for 
+getting rid of the majority of unwanted traffic. Egress filtering is the technique of monitoring the flow 
+of outbound network traffic and prevents any outbound connections to potential threats/unwanted hosts. 
+Egress filtering can be used to disrupt malware, block unwanted services, and gives greater awareness of 
 network traffic.
-First, we will setup a simple application and document the vulnerabilities.
-Next, we will implement pod security policies and document the results.
-Then we will implement network filtering on the base application without pod security policies
-and document the results. Finally, we will combine both layers of security and document the results.
-Hopefully, the final application will be free of vulnerabilities.
+
+For this experiment, we implemented two separate distributed applications with Kubernetes to demonstrate the 
+possible ways Pod Security Policies and network proxies can mitigate common vulnerabilities and threats. 
+The first part demonstrates how Pod Security Policies can prevents privilege escalation on distributed 
+applications deployed with Kubernetes. The second part demonstrates the effectiveness and use case of an 
+open source network proxy, called Envoy, that is used alongside a Kubernetes deployment. 
 
 % End with outline or what comes next and why.
 Through our paper, we will show the effectiveness of and the need to implement robust Pod Security Policies
