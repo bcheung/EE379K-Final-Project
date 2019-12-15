@@ -3,10 +3,12 @@
 ## Setup
 
 ### Install Docker and Microk8s
+
     sudo apt install docker.io
     sudo snap install microk8s --classic
 
 ### Microk8s Setup
+
     microk8s.enable registry dns
 
 ## Procedure
@@ -28,6 +30,7 @@ Delete deployments and services
     make delete
 
 #### Results
+
 - Both pods run
 - Escalation of privileges allowed in non-root-debian pod
 
